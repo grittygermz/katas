@@ -19,11 +19,14 @@ public record Cart(List<String> itemsInCart, Inventory inventory) {
     }
 
     public void printTotal() {
+        double totalBill = 0;
         Map<String, Integer> collapsedItems = collapseItems();
         for(String key: collapsedItems.keySet()) {
             CartDisplayItem cartDisplayItem = getCartDisplayItem(key, collapsedItems.get(key));
+            totalBill += cartDisplayItem.totalPrice();
             displayLine(cartDisplayItem);
         }
+        displayTotal(totalBill);
     }
 
     private Map<String, Integer> collapseItems() {
@@ -53,5 +56,10 @@ public record Cart(List<String> itemsInCart, Inventory inventory) {
                 displayItem.name(),
                 displayItem.unitPrice(),
                 displayItem.totalPrice());
+    }
+    
+    private void displayTotal(double totalBill) {
+        System.out.printf("total = %.2f\n", totalBill);
+        
     }
 }

@@ -74,6 +74,7 @@ public class ShoppingTest {
                 3 x mango @ 0.99 = 2.97
                 3 x apple @ 1.30 = 3.90
                 3 x lemon @ 1.60 = 4.80
+                total = 11.67
                 """;
         assertThat(text).isEqualTo(expected);
 
