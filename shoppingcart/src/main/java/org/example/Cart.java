@@ -4,62 +4,68 @@ import java.util.*;
 
 public record Cart(List<String> itemsInCart, Inventory inventory) {
 
-    public void addItemToCart(String barcodeNum) throws NotInInventoryException {
-        if (inventory.contents().get(barcodeNum) == null) {
-            throw new NotInInventoryException("item not available in inventory");
+    public void addItemToCart(String barcodeNumber) throws NotInInventoryException {
+        if (inventory.contents().get(barcodeNumber) == null) {
+            throw new NotInInventoryException("item %s not available in inventory".formatted(barcodeNumber));
         }
-        itemsInCart.add(barcodeNum);
+        itemsInCart.add(barcodeNumber);
     }
 
-    public void removeItemFromCart(String barcodeNum) throws NotInCartException {
-        if (!itemsInCart.contains(barcodeNum)) {
-            throw new NotInCartException("item was not existing in cart");
+    public void removeItemFromCart(String barcodeNumber) throws NotInCartException {
+        if (!itemsInCart.contains(barcodeNumber)) {
+            throw new NotInCartException("item %s was not existing in cart".formatted(barcodeNumber));
         }
-        itemsInCart.remove(barcodeNum);
+        itemsInCart.remove(barcodeNumber);
     }
 
     public void printTotal() {
+        String bill = createBill();
+        System.out.println(bill);
+    }
+
+    String createBill() {
+        Map<String, Integer> barcodeToCount = groupBarcodesTogether();
+
+        StringBuilder sb = new StringBuilder();
         double totalBill = 0;
-        Map<String, Integer> collapsedItems = collapseItems();
-        for(String key: collapsedItems.keySet()) {
-            CartDisplayItem cartDisplayItem = getCartDisplayItem(key, collapsedItems.get(key));
+
+        for(String key: barcodeToCount.keySet()) {
+            CartDisplayItem cartDisplayItem = getCartDisplayItem(key, barcodeToCount.get(key));
             totalBill += cartDisplayItem.totalPrice();
-            displayLine(cartDisplayItem);
+            sb.append(giveLineItem(cartDisplayItem));
         }
-        displayTotal(totalBill);
+        sb.append(giveTotal(totalBill));
+        return sb.toString();
     }
 
-    private Map<String, Integer> collapseItems() {
+    private Map<String, Integer> groupBarcodesTogether() {
+        Map<String, Integer> barcodeToCount = new HashMap<>();
 
-        Map<String, Integer> collapsedCart = new HashMap<>();
-
-        itemsInCart.forEach(currentBarcodeNum -> {
-            if (collapsedCart.containsKey(currentBarcodeNum)) {
-                Integer qty = collapsedCart.get(currentBarcodeNum);
-                collapsedCart.replace(currentBarcodeNum, ++qty);
+        for (String currentBarcodeNumber:  itemsInCart) {
+            if (barcodeToCount.containsKey(currentBarcodeNumber)) {
+                Integer qty = barcodeToCount.get(currentBarcodeNumber);
+                barcodeToCount.replace(currentBarcodeNumber, ++qty);
             } else {
-                collapsedCart.put(currentBarcodeNum, 1);
+                barcodeToCount.put(currentBarcodeNumber, 1);
             }
-        });
-
-        return collapsedCart;
+        }
+        return barcodeToCount;
     }
 
-    private CartDisplayItem getCartDisplayItem(String barcodeNum, int qty) {
-        Item item = inventory.contents().get(barcodeNum);
+    private CartDisplayItem getCartDisplayItem(String barcodeNumber, int qty) {
+        Item item = inventory.contents().get(barcodeNumber);
         return new CartDisplayItem(qty, item.name(), item.price(), item.price() * qty);
     }
 
-    private void displayLine(CartDisplayItem displayItem) {
-        System.out.printf("%d x %s @ %.2f = %.2f\n",
+    private String giveLineItem(CartDisplayItem displayItem) {
+        return "%d x %s @ %.2f = %.2f\n".formatted(
                 displayItem.quantity(),
                 displayItem.name(),
                 displayItem.unitPrice(),
                 displayItem.totalPrice());
     }
     
-    private void displayTotal(double totalBill) {
-        System.out.printf("total = %.2f\n", totalBill);
-        
+    private String giveTotal(double totalBill) {
+        return String.format("total = %.2f\n", totalBill);
     }
 }

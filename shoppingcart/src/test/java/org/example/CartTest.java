@@ -1,35 +1,28 @@
-import org.example.*;
-import org.junit.jupiter.api.BeforeAll;
+package org.example;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static com.github.stefanbirkner.systemlambda.SystemLambda.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class ShoppingTest {
+public class CartTest {
 
-    static Inventory availableItemsInShop;
-    static Cart cart;
+    Inventory availableItemsInShop;
+    Cart cart;
 
-
-    @BeforeAll
-    static void setup() {
+    @BeforeEach
+    void setup() {
         availableItemsInShop = new Inventory(Map.of(
                 "01001", new Item("01001", "lemon", 1.6),
                 "01002", new Item("01002", "apple", 1.3),
                 "01003", new Item("01003", "mango", 0.99)
         ));
-
         cart = new Cart(new ArrayList<>(), availableItemsInShop);
-    }
-
-    @BeforeEach
-    void resetCart() {
-        cart.itemsInCart().clear();
     }
 
     @Test
@@ -40,21 +33,20 @@ public class ShoppingTest {
         cart.addItemToCart("01003");
         cart.removeItemFromCart("01001");
 
-        assertThat(cart.itemsInCart().size()).isEqualTo(3);
+        assertThat(cart.itemsInCart()).containsExactlyElementsOf(List.of("01001", "01002", "01003"));
     }
 
     @Test
     void shouldThrowNotInInventoryException() {
         assertThatThrownBy(() -> cart.addItemToCart("999"))
                 .isInstanceOf(NotInInventoryException.class)
-                .hasMessageContaining("item not available in inventory");
-
+                .hasMessageContaining("item 999 not available in inventory");
     }
 
     @Test
     void shouldThrowNotInCartException() {
         assertThatThrownBy(() -> cart.removeItemFromCart("999")).isInstanceOf(NotInCartException.class)
-                .hasMessageContaining("item was not existing in cart");
+                .hasMessageContaining("item 999 was not existing in cart");
     }
 
     @Test
@@ -69,15 +61,14 @@ public class ShoppingTest {
         cart.addItemToCart("01003");
         cart.addItemToCart("01003");
 
-        String text = tapSystemOut(() -> cart.printTotal());
+        String actual = cart.createBill();
         String expected = """
                 3 x mango @ 0.99 = 2.97
                 3 x apple @ 1.30 = 3.90
                 3 x lemon @ 1.60 = 4.80
                 total = 11.67
                 """;
-        assertThat(text).isEqualTo(expected);
-
+        assertThat(actual).isEqualTo(expected);
     }
 
 }
