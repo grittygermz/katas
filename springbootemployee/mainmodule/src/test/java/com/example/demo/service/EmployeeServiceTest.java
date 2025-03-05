@@ -17,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
@@ -52,6 +53,19 @@ class EmployeeServiceTest {
 
         assertThat(employeeService.getEmployee(employeeId))
                 .isEqualTo(new FullTimeEmployee(1L, new BigDecimal("10000"), 20));
+    }
+
+    @Test
+    void shouldHaveErrorIfStockCountServiceIsDown() {
+        long employeeId = 1L;
+
+        EmployeeDao employeeDao = new EmployeeDao(employeeId, EmployeeType.FULLTIMEEMPLOYEE.getValue(), null,  new BigDecimal("10000"));
+        when(employeeRepository.findByEmployeeId(anyLong())).thenReturn(Optional.of(employeeDao));
+        when(stockServiceClient.getStockCount()).thenReturn(new ResponseEntity<>(new SamplePayload(20), HttpStatus.INTERNAL_SERVER_ERROR));
+
+        assertThatThrownBy(() -> employeeService.getEmployee(employeeId))
+                .isInstanceOf(RuntimeException.class)
+                        .hasMessageContaining("failure in call to stockcount service");
     }
 
     @Test
