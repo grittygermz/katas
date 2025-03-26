@@ -2,10 +2,10 @@ package com.example.demo.models.employee;
 
 import com.example.demo.models.salary.FullTimeSalary;
 import com.example.demo.models.salary.Salary;
-import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Data
 public class FullTimeEmployee implements Employee {
@@ -15,7 +15,7 @@ public class FullTimeEmployee implements Employee {
 
     public FullTimeEmployee(long employeeId, BigDecimal baseSalary, int stocks) {
         this.employeeId = employeeId;
-        this.salary = new FullTimeSalary(baseSalary);
+        this.salary = new FullTimeSalary(baseSalary.setScale(2, RoundingMode.HALF_UP));
         this.stocks = stocks;
     }
 

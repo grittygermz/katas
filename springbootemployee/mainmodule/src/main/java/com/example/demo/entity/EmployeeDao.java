@@ -31,4 +31,11 @@ public class EmployeeDao {
 
     public EmployeeDao() {
     }
+
+    public EmployeeDao(EmployeeDao other) {
+        this.employeeId = other.employeeId;
+        this.employeeType = other.employeeType;
+        this.baseSalary = other.baseSalary;
+        this.workingHoursPerDay = other.workingHoursPerDay;
+    }
 }

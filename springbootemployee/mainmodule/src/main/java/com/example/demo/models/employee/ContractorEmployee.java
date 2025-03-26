@@ -5,6 +5,7 @@ import com.example.demo.models.salary.Salary;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Data
 public class ContractorEmployee implements Employee{
@@ -13,7 +14,7 @@ public class ContractorEmployee implements Employee{
 
     public ContractorEmployee(long employeeId, BigDecimal baseSalary) {
         this.employeeId = employeeId;
-        this.salary = new ContractorSalary(baseSalary);
+        this.salary = new ContractorSalary(baseSalary.setScale(2, RoundingMode.HALF_UP));
     }
 
     @Override

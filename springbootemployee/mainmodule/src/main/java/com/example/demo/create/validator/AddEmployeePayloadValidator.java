@@ -1,12 +1,12 @@
-package com.example.demo.domain.validator;
+package com.example.demo.create.validator;
 
-import com.example.demo.domain.AddEmployeePayload;
+import com.example.demo.create.AddEmployeePayload;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.math.BigDecimal;
 
-public class EmployeePayloadValidator implements ConstraintValidator<ValidEmployeePayload, AddEmployeePayload> {
+public class AddEmployeePayloadValidator implements ConstraintValidator<ValidAddEmployeePayload, AddEmployeePayload> {
     @Override
     public boolean isValid(AddEmployeePayload payload, ConstraintValidatorContext context) {
         if (payload.employeeType().equals("FullTime") || payload.employeeType().equals("Contractor")) {

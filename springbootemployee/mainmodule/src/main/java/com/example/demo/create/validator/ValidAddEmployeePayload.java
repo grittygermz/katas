@@ -1,4 +1,4 @@
-package com.example.demo.domain.validator;
+package com.example.demo.create.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -10,9 +10,9 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = EmployeePayloadValidator.class)
-public @interface ValidEmployeePayload {
-    String message() default "Invalid employee payload";
+@Constraint(validatedBy = AddEmployeePayloadValidator.class)
+public @interface ValidAddEmployeePayload {
+    String message() default "Invalid add employee payload";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
