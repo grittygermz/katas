@@ -29,3 +29,5 @@ testing of service queries
 further extension ideas?
 - async export of employees for excel sheet?
 - using message queues instead of rest endpoint
+- authentication and authorization with spring security
+- 
