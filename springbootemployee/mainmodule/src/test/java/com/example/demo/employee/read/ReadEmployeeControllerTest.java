@@ -1,5 +1,6 @@
 package com.example.demo.employee.read;
 
+import com.example.demo.employee.exceptions.EmployeeNotFoundException;
 import com.example.demo.employee.models.EmployeeDTO;
 import com.example.demo.employee.models.employee.EmployeeType;
 import com.example.demo.employee.models.salary.ContractorSalary;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
@@ -19,7 +21,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -74,6 +78,20 @@ class ReadEmployeeControllerTest {
 
         assertThat(result).hasStatusOk()
                 .bodyJson().isEqualTo(objectMapper.writeValueAsString(expectedEmployeeDTOList));
+    }
+
+    @Test
+    void shouldReturn404IfEmployeeNotFound() throws JsonProcessingException {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("message", "employee with id 99 does not exists");
+
+        when(readEmployeeService.getAllEmployeesAsExport()).thenThrow(new EmployeeNotFoundException("employee with id 99 does not exists"));
+        MvcTestResult result = mockMvcTester.get().uri("/v1/api/employees")
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .exchange();
+
+        assertThat(result).hasStatus(HttpStatus.NOT_FOUND)
+                .bodyJson().isEqualTo(objectMapper.writeValueAsString(errorMap));
     }
 
     @Test

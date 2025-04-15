@@ -1,7 +1,7 @@
 package com.example.demo.employee.delete;
 
 import com.example.demo.employee.EmployeeRepository;
-import com.example.demo.employee.exceptions.InvalidException;
+import com.example.demo.employee.exceptions.EmployeeNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,7 +34,7 @@ class DeleteEmployeeServiceTest {
     void shouldThrowExceptionIfNotExisting() {
         when(employeeRepository.existsByEmployeeId(anyLong())).thenReturn(false);
 
-        assertThatThrownBy(() -> deleteEmployeeService.deleteEmployee(1L)).isInstanceOf(InvalidException.class)
+        assertThatThrownBy(() -> deleteEmployeeService.deleteEmployee(1L)).isInstanceOf(EmployeeNotFoundException.class)
                 .hasMessageContaining("employee 1 to delete does not exist");
     }
 }

@@ -1,6 +1,6 @@
 package com.example.demo.employee.create;
 
-import com.example.demo.employee.EmployeeDao;
+import com.example.demo.employee.models.EmployeeDao;
 import com.example.demo.employee.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,17 +15,17 @@ public class CreateEmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public long addEmployee(AddEmployeePayload addEmployeePayload) {
+    public long addEmployee(CreateEmployeePayload createEmployeePayload) {
 
-        if (!employeeRepository.existsByEmployeeId(addEmployeePayload.employeeId())) {
-            EmployeeDao employeeDaoToSave = new EmployeeDao(addEmployeePayload.employeeId(),
-                    addEmployeePayload.employeeType(),
-                    addEmployeePayload.workingHoursPerDay(),
-                    addEmployeePayload.baseSalary());
+        if (!employeeRepository.existsByEmployeeId(createEmployeePayload.employeeId())) {
+            EmployeeDao employeeDaoToSave = new EmployeeDao(createEmployeePayload.employeeId(),
+                    createEmployeePayload.employeeType(),
+                    createEmployeePayload.workingHoursPerDay(),
+                    createEmployeePayload.baseSalary());
             return employeeRepository.save(employeeDaoToSave)
                     .getEmployeeId();
         } else {
-            throw new ConflictingException("employee with id %s already exists".formatted(addEmployeePayload.employeeId()));
+            throw new EmployeeAlreadyExistsException("employee with id %s already exists".formatted(createEmployeePayload.employeeId()));
         }
     }
 }

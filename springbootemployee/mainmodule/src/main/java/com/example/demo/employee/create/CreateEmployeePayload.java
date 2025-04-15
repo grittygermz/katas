@@ -1,12 +1,12 @@
 package com.example.demo.employee.create;
 
-import com.example.demo.employee.create.validator.ValidAddEmployeePayload;
+import com.example.demo.employee.create.validator.ValidCreateEmployeePayload;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 
-@ValidAddEmployeePayload
-public record AddEmployeePayload(
+@ValidCreateEmployeePayload
+public record CreateEmployeePayload(
     @NotNull(message = "employeeId is mandatory")
     Long employeeId,
 

@@ -23,8 +23,8 @@ public class ExcelService {
             ByteArrayOutputStream byteArrayOutputStream = captureWorkBookContents(workbookWithContents);
             workbookWithContents.close();
             return byteArrayOutputStream;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
@@ -38,8 +38,8 @@ public class ExcelService {
             resizeColumn(sheet);
 
             return workbook;
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+        } catch (IllegalAccessException ex) {
+            throw new RuntimeException(ex);
         }
     }
 

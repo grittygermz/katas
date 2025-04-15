@@ -1,6 +1,6 @@
 package com.example.demo.employee.helpers;
 
-import com.example.demo.employee.EmployeeDao;
+import com.example.demo.employee.models.EmployeeDao;
 import com.example.demo.employee.models.EmployeeDTO;
 import com.example.demo.employee.models.employee.*;
 import com.example.demo.employee.models.salary.ContractorSalary;

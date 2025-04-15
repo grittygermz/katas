@@ -27,8 +27,8 @@ public class CreateEmployeeController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> addAnEmployee(@Valid @RequestBody AddEmployeePayload addEmployeePayload) {
-        long employeeId = createEmployeeService.addEmployee(addEmployeePayload);
+    public ResponseEntity<Void> addAnEmployee(@Valid @RequestBody CreateEmployeePayload createEmployeePayload) {
+        long employeeId = createEmployeeService.addEmployee(createEmployeePayload);
 
         //add header which provides link to perform a get request
         URI location = ServletUriComponentsBuilder
@@ -43,7 +43,7 @@ public class CreateEmployeeController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        HashMap<String, String> errors = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach(err -> {
             if(err instanceof FieldError) {
                 String fieldName = ((FieldError)err).getField();
@@ -57,9 +57,9 @@ public class CreateEmployeeController {
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(ConflictingException.class)
-    public Map<String, String> handleConflictException(ConflictingException ex) {
-        HashMap<String, String> errors = new HashMap<>();
+    @ExceptionHandler(EmployeeAlreadyExistsException.class)
+    public Map<String, String> handleConflictException(EmployeeAlreadyExistsException ex) {
+        Map<String, String> errors = new HashMap<>();
         errors.put("message", ex.getMessage());
         return errors;
     }

@@ -1,4 +1,4 @@
-package com.example.demo.employee;
+package com.example.demo.employee.models;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

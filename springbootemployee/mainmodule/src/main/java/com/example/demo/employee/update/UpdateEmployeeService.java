@@ -1,8 +1,8 @@
 package com.example.demo.employee.update;
 
-import com.example.demo.employee.EmployeeDao;
+import com.example.demo.employee.models.EmployeeDao;
 import com.example.demo.employee.EmployeeRepository;
-import com.example.demo.employee.exceptions.InvalidException;
+import com.example.demo.employee.exceptions.EmployeeNotFoundException;
 import com.example.demo.employee.models.EmployeeDAOAdapter;
 import com.example.demo.employee.models.EmployeeDTO;
 import com.example.demo.employee.models.EmployeeDTOAdapter;
@@ -38,7 +38,7 @@ public class UpdateEmployeeService {
             Employee employee = employeeDAOAdapter.getEmployee(savedEmployeeDao);
             return employeeDTOAdapter.getEmployeeDTO(employee);
         } else {
-            throw new InvalidException("employee with id %s to modify does not exist".formatted(employeeId));
+            throw new EmployeeNotFoundException("employee with id %s to modify does not exist".formatted(employeeId));
         }
     }
 
@@ -51,15 +51,15 @@ public class UpdateEmployeeService {
 
             try {
                 employeeDaoToSave = createEmployeeDaoWithOverridenFieldsIfProvided(existingEmployeeDao, patchEmployeePayload);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
+            } catch (IllegalAccessException ex) {
+                throw new RuntimeException(ex);
             }
 
             EmployeeDao savedEmployeeDao = employeeRepository.save(employeeDaoToSave);
             Employee employee = employeeDAOAdapter.getEmployee(savedEmployeeDao);
             return employeeDTOAdapter.getEmployeeDTO(employee);
         } else {
-            throw new InvalidException("employee with id %s to modify does not exist".formatted(employeeId));
+            throw new EmployeeNotFoundException("employee with id %s to modify does not exist".formatted(employeeId));
         }
     }
 
@@ -87,8 +87,8 @@ public class UpdateEmployeeService {
                     Field fieldToOverride = newEmployeeDao.getClass().getDeclaredField(fieldName);
                     fieldToOverride.setAccessible(true);
                     fieldToOverride.set(newEmployeeDao, value);
-                } catch (NoSuchFieldException e) {
-                    throw new RuntimeException(e);
+                } catch (NoSuchFieldException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
         }

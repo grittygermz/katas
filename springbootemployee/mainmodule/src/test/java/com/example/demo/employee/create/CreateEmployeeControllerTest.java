@@ -25,7 +25,7 @@ class CreateEmployeeControllerTest {
 
     @Test
     void shouldAddEmployee() {
-        when(createEmployeeService.addEmployee(any(AddEmployeePayload.class))).thenReturn(5L);
+        when(createEmployeeService.addEmployee(any(CreateEmployeePayload.class))).thenReturn(5L);
 
         MvcTestResult result = mockMvcTester.post().uri("/v1/api/employees")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -71,7 +71,7 @@ class CreateEmployeeControllerTest {
                 .exchange();
         assertThat(result).hasStatus(HttpStatus.BAD_REQUEST)
                 .bodyJson()
-                .isEqualTo("{\"addEmployeePayload\":\"Invalid add employee payload\",\"baseSalary\":\"Base salary must be more than 0 for FullTime and Contractors\",\"employeeId\":\"employeeId is mandatory\"}");
+                .isEqualTo("{\"createEmployeePayload\":\"Invalid create employee payload\",\"baseSalary\":\"Base salary must be more than 0 for FullTime and Contractors\",\"employeeId\":\"employeeId is mandatory\"}");
     }
 
     @Test
@@ -90,7 +90,7 @@ class CreateEmployeeControllerTest {
                 .exchange();
         assertThat(result).hasStatus(HttpStatus.BAD_REQUEST)
                 .bodyJson()
-                .isEqualTo("{\"addEmployeePayload\":\"Invalid add employee payload\",\"workingHoursPerDay\":\"workingHoursPerDay must not be provided for FullTime and Contractors\"}");
+                .isEqualTo("{\"createEmployeePayload\":\"Invalid create employee payload\",\"workingHoursPerDay\":\"workingHoursPerDay must not be provided for FullTime and Contractors\"}");
     }
 
     @Test
@@ -109,7 +109,7 @@ class CreateEmployeeControllerTest {
                 .exchange();
         assertThat(result).hasStatus(HttpStatus.BAD_REQUEST)
                 .bodyJson()
-                .isEqualTo("{\"addEmployeePayload\":\"Invalid add employee payload\",\"baseSalary\":\"base salary must not be provided for PartTime\"}");
+                .isEqualTo("{\"createEmployeePayload\":\"Invalid create employee payload\",\"baseSalary\":\"base salary must not be provided for PartTime\"}");
     }
 
     @Test
@@ -127,13 +127,13 @@ class CreateEmployeeControllerTest {
                 .exchange();
         assertThat(result).hasStatus(HttpStatus.BAD_REQUEST)
                 .bodyJson()
-                .isEqualTo("{\"addEmployeePayload\":\"Invalid add employee payload\",\"workingHoursPerDay\":\"workingHoursPerDay must be more than 0 for PartTime\"}");
+                .isEqualTo("{\"createEmployeePayload\":\"Invalid create employee payload\",\"workingHoursPerDay\":\"workingHoursPerDay must be more than 0 for PartTime\"}");
     }
 
     @Test
     void shouldHave409ErrorIfEmployeeIdIsUsed() {
-        when(createEmployeeService.addEmployee(any(AddEmployeePayload.class)))
-                .thenThrow(new ConflictingException("employee with id 1 already exists"));
+        when(createEmployeeService.addEmployee(any(CreateEmployeePayload.class)))
+                .thenThrow(new EmployeeAlreadyExistsException("employee with id 1 already exists"));
         MvcTestResult result = mockMvcTester.post().uri("/v1/api/employees")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""

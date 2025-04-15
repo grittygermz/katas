@@ -33,8 +33,8 @@ public class StockServiceClient {
                     .toEntity(SamplePayload.class);
             log.info("{}", result.getBody());
             return result;
-        } catch (RestClientException e) {
-            log.error("Server error occurred: " + e.getMessage());
+        } catch (RestClientException ex) {
+            log.error("Server error occurred: " + ex.getMessage());
         }
         return null;
     }

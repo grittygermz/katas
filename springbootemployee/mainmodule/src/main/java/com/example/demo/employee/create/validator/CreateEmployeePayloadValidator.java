@@ -1,14 +1,14 @@
 package com.example.demo.employee.create.validator;
 
-import com.example.demo.employee.create.AddEmployeePayload;
+import com.example.demo.employee.create.CreateEmployeePayload;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.math.BigDecimal;
 
-public class AddEmployeePayloadValidator implements ConstraintValidator<ValidAddEmployeePayload, AddEmployeePayload> {
+public class CreateEmployeePayloadValidator implements ConstraintValidator<ValidCreateEmployeePayload, CreateEmployeePayload> {
     @Override
-    public boolean isValid(AddEmployeePayload payload, ConstraintValidatorContext context) {
+    public boolean isValid(CreateEmployeePayload payload, ConstraintValidatorContext context) {
         if (payload.employeeType().equals("FullTime") || payload.employeeType().equals("Contractor")) {
             if (payload.baseSalary() == null || payload.baseSalary().compareTo(BigDecimal.ZERO) <= 0) {
                 context.buildConstraintViolationWithTemplate("Base salary must be more than 0 for FullTime and Contractors")

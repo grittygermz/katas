@@ -1,8 +1,8 @@
 package com.example.demo.employee.read;
 
-import com.example.demo.employee.EmployeeDao;
+import com.example.demo.employee.models.EmployeeDao;
 import com.example.demo.employee.EmployeeRepository;
-import com.example.demo.employee.exceptions.InvalidException;
+import com.example.demo.employee.exceptions.EmployeeNotFoundException;
 import com.example.demo.employee.models.EmployeeDAOAdapter;
 import com.example.demo.employee.models.EmployeeDTO;
 import com.example.demo.employee.models.EmployeeDTOAdapter;
@@ -57,7 +57,7 @@ class ReadEmployeeServiceTest {
     void shouldThrowErrorIfEmployeeIsNotPresent() {
         when(employeeRepository.findByEmployeeId(anyLong())).thenReturn(
                 Optional.empty());
-        assertThatThrownBy(() -> readEmployeeService.getEmployee(1L)).isInstanceOf(InvalidException.class)
+        assertThatThrownBy(() -> readEmployeeService.getEmployee(1L)).isInstanceOf(EmployeeNotFoundException.class)
                 .hasMessageContaining("employee with id 1 does not exists");
     }
 

@@ -10,9 +10,9 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = AddEmployeePayloadValidator.class)
-public @interface ValidAddEmployeePayload {
-    String message() default "Invalid add employee payload";
+@Constraint(validatedBy = CreateEmployeePayloadValidator.class)
+public @interface ValidCreateEmployeePayload {
+    String message() default "Invalid create employee payload";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

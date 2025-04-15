@@ -1,6 +1,5 @@
-package com.example.demo.employee.controller;
+package com.example.demo.employee.exceptions;
 
-import com.example.demo.employee.exceptions.InvalidException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,7 +16,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     //centralize the request validation error handling here?
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        HashMap<String, String> errors = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach(err -> {
             if(err instanceof FieldError) {
                 String fieldName = ((FieldError)err).getField();
@@ -33,9 +32,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
      */
 
-    @ExceptionHandler(InvalidException.class)
-    public ResponseEntity<Map<String, String>> handleEmployeeNotFoundException(InvalidException ex, WebRequest request) {
-        return new ResponseEntity<>(Map.of("message", ex.getMessage()), HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(EmployeeNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleEmployeeNotFoundException(EmployeeNotFoundException ex, WebRequest request) {
+        return new ResponseEntity<>(Map.of("message", ex.getMessage()), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(RuntimeException.class)

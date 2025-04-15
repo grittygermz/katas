@@ -1,9 +1,9 @@
 package com.example.demo.employee.update;
 
 import com.example.demo.config.TestConfig;
-import com.example.demo.employee.EmployeeDao;
+import com.example.demo.employee.models.EmployeeDao;
 import com.example.demo.employee.EmployeeRepository;
-import com.example.demo.employee.exceptions.InvalidException;
+import com.example.demo.employee.exceptions.EmployeeNotFoundException;
 import com.example.demo.employee.models.EmployeeDAOAdapter;
 import com.example.demo.employee.models.EmployeeDTO;
 import com.example.demo.employee.models.EmployeeDTOAdapter;
@@ -157,7 +157,7 @@ class UpdateEmployeeServiceTest {
                         null,
                         null)
         ))
-                .isInstanceOf(InvalidException.class)
+                .isInstanceOf(EmployeeNotFoundException.class)
                 .hasMessageContaining("employee with id 1 to modify does not exist");
     }
 
@@ -172,7 +172,7 @@ class UpdateEmployeeServiceTest {
                         null,
                         null)
         ))
-                .isInstanceOf(InvalidException.class)
+                .isInstanceOf(EmployeeNotFoundException.class)
                 .hasMessageContaining("employee with id 1 to modify does not exist");
     }
 

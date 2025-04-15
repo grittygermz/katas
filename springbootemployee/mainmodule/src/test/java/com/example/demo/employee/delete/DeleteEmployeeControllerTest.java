@@ -1,6 +1,6 @@
 package com.example.demo.employee.delete;
 
-import com.example.demo.employee.exceptions.InvalidException;
+import com.example.demo.employee.exceptions.EmployeeNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -37,12 +37,12 @@ class DeleteEmployeeControllerTest {
 
     @Test
     void shouldHaveErrorIfNotExists() {
-        doThrow(new InvalidException("employee 1 to delete does not exist")).when(deleteEmployeeService)
+        doThrow(new EmployeeNotFoundException("employee 1 to delete does not exist")).when(deleteEmployeeService)
                 .deleteEmployee(anyLong());
 
         MvcTestResult result = mockMvcTester.delete().uri("/v1/api/employees/{id}", 1)
                 .exchange();
-        assertThat(result).hasStatus(HttpStatus.BAD_REQUEST)
+        assertThat(result).hasStatus(HttpStatus.NOT_FOUND)
                 .bodyJson()
                 .isEqualTo("{\"message\":\"employee 1 to delete does not exist\"}");
     }

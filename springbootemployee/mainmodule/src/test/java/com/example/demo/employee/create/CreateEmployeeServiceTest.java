@@ -1,6 +1,6 @@
 package com.example.demo.employee.create;
 
-import com.example.demo.employee.EmployeeDao;
+import com.example.demo.employee.models.EmployeeDao;
 import com.example.demo.employee.EmployeeRepository;
 import com.example.demo.employee.models.employee.EmployeeType;
 import org.junit.jupiter.api.Test;
@@ -28,20 +28,20 @@ class CreateEmployeeServiceTest {
 
     @Test
     void shouldNotAddEmployee() {
-        AddEmployeePayload addEmployeePayload = new AddEmployeePayload(1L,
+        CreateEmployeePayload createEmployeePayload = new CreateEmployeePayload(1L,
                 EmployeeType.CONTRACTOR.getValue(),
                 null,
                 new BigDecimal("10000"));
         when(employeeRepository.existsByEmployeeId(anyLong())).thenReturn(true);
 
-        assertThatThrownBy(() -> createEmployeeService.addEmployee(addEmployeePayload))
-                .isInstanceOf(ConflictingException.class)
+        assertThatThrownBy(() -> createEmployeeService.addEmployee(createEmployeePayload))
+                .isInstanceOf(EmployeeAlreadyExistsException.class)
                 .hasMessageContaining("employee with id 1 already exists");
     }
 
     @Test
     void shouldAddEmployee() {
-        AddEmployeePayload addEmployeePayload = new AddEmployeePayload(1L,
+        CreateEmployeePayload createEmployeePayload = new CreateEmployeePayload(1L,
                 EmployeeType.CONTRACTOR.getValue(),
                 null,
                 new BigDecimal("10000"));
@@ -52,7 +52,7 @@ class CreateEmployeeServiceTest {
                         null,
                         new BigDecimal("10000")));
 
-        assertThat(createEmployeeService.addEmployee(addEmployeePayload)).isEqualTo(1L);
+        assertThat(createEmployeeService.addEmployee(createEmployeePayload)).isEqualTo(1L);
     }
 
 }

@@ -1,6 +1,5 @@
 package com.example.demo.employee.models;
 
-import com.example.demo.employee.EmployeeDao;
 import com.example.demo.employee.models.employee.Employee;
 import com.example.demo.employee.models.employee.EmployeeType;
 import com.example.demo.stocks.SamplePayload;

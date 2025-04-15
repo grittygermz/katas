@@ -1,5 +1,6 @@
 package com.example.demo.employee.update;
 
+import com.example.demo.employee.exceptions.EmployeeNotFoundException;
 import com.example.demo.employee.models.EmployeeDTO;
 import com.example.demo.employee.models.employee.EmployeeType;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,6 +16,8 @@ import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import org.springframework.test.web.servlet.assertj.MvcTestResult;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -132,5 +135,46 @@ class UpdateEmployeeControllerTest {
         assertThat(result).hasStatus(HttpStatus.BAD_REQUEST)
                 .bodyJson()
                 .isEqualTo("{\"baseSalary\":\"must be greater than or equal to 0.01\"}");
+    }
+
+    @Test
+    void shouldReturn404ForPatchingIfEmployeeNotFound() throws JsonProcessingException {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("message", "employee with id 99 to modify does not exist");
+
+        when(updateEmployeeService.updateEmployee(anyLong(), any(PatchEmployeePayload.class)))
+                .thenThrow(new EmployeeNotFoundException("employee with id 99 to modify does not exist"));
+        MvcTestResult result = mockMvcTester.patch().uri("/v1/api/employees/{id}", 99)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                            "employeeType": "Contractor"
+                        }
+                        """)
+                .exchange();
+
+        assertThat(result).hasStatus(HttpStatus.NOT_FOUND)
+                .bodyJson().isEqualTo(objectMapper.writeValueAsString(errorMap));
+    }
+
+    @Test
+    void shouldReturn404ForPuttingIfEmployeeNotFound() throws JsonProcessingException {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("message", "employee with id 99 to modify does not exist");
+
+        when(updateEmployeeService.updateEmployee(anyLong(), any(PutEmployeePayload.class)))
+                .thenThrow(new EmployeeNotFoundException("employee with id 99 to modify does not exist"));
+        MvcTestResult result = mockMvcTester.put().uri("/v1/api/employees/{id}", 99)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                            "employeeType": "Contractor",
+                            "baseSalary": 50001
+                        }
+                        """)
+                .exchange();
+
+        assertThat(result).hasStatus(HttpStatus.NOT_FOUND)
+                .bodyJson().isEqualTo(objectMapper.writeValueAsString(errorMap));
     }
 }

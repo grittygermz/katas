@@ -1,11 +1,11 @@
 package com.example.demo.employee.read;
 
-import com.example.demo.employee.EmployeeDao;
 import com.example.demo.employee.EmployeeRepository;
-import com.example.demo.employee.exceptions.InvalidException;
+import com.example.demo.employee.exceptions.EmployeeNotFoundException;
 import com.example.demo.employee.models.EmployeeDAOAdapter;
 import com.example.demo.employee.models.EmployeeDTO;
 import com.example.demo.employee.models.EmployeeDTOAdapter;
+import com.example.demo.employee.models.EmployeeDao;
 import com.example.demo.employee.models.employee.Employee;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +34,7 @@ public class ReadEmployeeService {
             Employee employee = employeeDAOAdapter.getEmployee(employeeDao);
             return employeeDTOAdapter.getEmployeeDTO(employee);
         }
-        throw new InvalidException("employee with id %s does not exists".formatted(id));
+        throw new EmployeeNotFoundException("employee with id %s does not exists".formatted(id));
     }
 
     public List<EmployeeDTO> getAllEmployeesAsExport() {
