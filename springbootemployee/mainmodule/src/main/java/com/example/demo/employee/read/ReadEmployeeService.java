@@ -2,11 +2,11 @@ package com.example.demo.employee.read;
 
 import com.example.demo.employee.EmployeeRepository;
 import com.example.demo.employee.exceptions.EmployeeNotFoundException;
-import com.example.demo.employee.models.EmployeeDAOAdapter;
-import com.example.demo.employee.models.EmployeeDTO;
-import com.example.demo.employee.models.EmployeeDTOAdapter;
-import com.example.demo.employee.models.EmployeeDao;
-import com.example.demo.employee.models.employee.Employee;
+import com.example.demo.employee.models.exchange.EmployeeDAOAdapter;
+import com.example.demo.employee.models.exchange.EmployeeDTO;
+import com.example.demo.employee.models.exchange.EmployeeDTOAdapter;
+import com.example.demo.employee.models.exchange.EmployeeDao;
+import com.example.demo.employee.models.Employee;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

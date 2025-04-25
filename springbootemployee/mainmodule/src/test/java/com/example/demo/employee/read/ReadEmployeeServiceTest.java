@@ -1,12 +1,12 @@
 package com.example.demo.employee.read;
 
-import com.example.demo.employee.models.EmployeeDao;
+import com.example.demo.employee.models.*;
 import com.example.demo.employee.EmployeeRepository;
 import com.example.demo.employee.exceptions.EmployeeNotFoundException;
-import com.example.demo.employee.models.EmployeeDAOAdapter;
-import com.example.demo.employee.models.EmployeeDTO;
-import com.example.demo.employee.models.EmployeeDTOAdapter;
-import com.example.demo.employee.models.employee.*;
+import com.example.demo.employee.models.exchange.EmployeeDAOAdapter;
+import com.example.demo.employee.models.exchange.EmployeeDTO;
+import com.example.demo.employee.models.exchange.EmployeeDTOAdapter;
+import com.example.demo.employee.models.exchange.EmployeeDao;
 import com.example.demo.employee.models.salary.ContractorSalary;
 import com.example.demo.employee.models.salary.FullTimeSalary;
 import com.example.demo.employee.models.salary.PartTimeSalary;
@@ -82,7 +82,7 @@ class ReadEmployeeServiceTest {
         when((employeeDTOAdapter.getEmployeeDTO(getEmployeeWithType(EmployeeType.PARTTIMEEMPLOYEE))))
                 .thenReturn(getEmployeeDTOWithType(EmployeeType.PARTTIMEEMPLOYEE));
 
-        System.out.println(readEmployeeService.getAllEmployeesAsExport());
+        //System.out.println(readEmployeeService.getAllEmployeesAsExport());
 
         assertThat(readEmployeeService.getAllEmployeesAsExport()).containsExactlyElementsOf(
                 List.of(

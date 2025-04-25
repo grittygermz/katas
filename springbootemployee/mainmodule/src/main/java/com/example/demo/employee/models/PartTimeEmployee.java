@@ -1,4 +1,4 @@
-package com.example.demo.employee.models.employee;
+package com.example.demo.employee.models;
 
 import com.example.demo.employee.models.salary.PartTimeSalary;
 import com.example.demo.employee.models.salary.Salary;
@@ -22,5 +22,10 @@ public class PartTimeEmployee implements Employee {
     @Override
     public BigDecimal getAnnualSalary() {
         return salary.computeAnnualSalary();
+    }
+
+    @Override
+    public EmployeeType getEmployeeType() {
+        return EmployeeType.PARTTIMEEMPLOYEE;
     }
 }

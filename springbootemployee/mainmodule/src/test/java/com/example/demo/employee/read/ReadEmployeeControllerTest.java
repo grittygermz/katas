@@ -1,8 +1,8 @@
 package com.example.demo.employee.read;
 
 import com.example.demo.employee.exceptions.EmployeeNotFoundException;
-import com.example.demo.employee.models.EmployeeDTO;
-import com.example.demo.employee.models.employee.EmployeeType;
+import com.example.demo.employee.models.exchange.EmployeeDTO;
+import com.example.demo.employee.models.EmployeeType;
 import com.example.demo.employee.models.salary.ContractorSalary;
 import com.example.demo.employee.models.salary.FullTimeSalary;
 import com.example.demo.employee.models.salary.PartTimeSalary;

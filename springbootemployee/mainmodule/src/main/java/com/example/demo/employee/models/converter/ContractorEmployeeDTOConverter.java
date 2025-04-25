@@ -1,9 +1,9 @@
 package com.example.demo.employee.models.converter;
 
-import com.example.demo.employee.models.EmployeeDTO;
-import com.example.demo.employee.models.employee.ContractorEmployee;
-import com.example.demo.employee.models.employee.Employee;
-import com.example.demo.employee.models.employee.EmployeeType;
+import com.example.demo.employee.models.exchange.EmployeeDTO;
+import com.example.demo.employee.models.ContractorEmployee;
+import com.example.demo.employee.models.Employee;
+import com.example.demo.employee.models.EmployeeType;
 import com.example.demo.employee.models.salary.ContractorSalary;
 import org.springframework.stereotype.Component;
 
@@ -16,13 +16,13 @@ public class ContractorEmployeeDTOConverter implements EmployeeDTOConverter {
         return new EmployeeDTO(contractorEmployee.getEmployeeId(),
                 EmployeeType.CONTRACTOR.getValue(),
                 null,
-                ((ContractorSalary) contractorEmployee.getSalary()).baseSalary(),
+                ((ContractorSalary) contractorEmployee.getSalary()).getBaseSalary(),
                 contractorEmployee.getAnnualSalary(),
                 0);
     }
 
     @Override
-    public Class<?> getSupportedEmployeeType() {
-        return ContractorEmployee.class;
+    public EmployeeType getSupportedEmployeeType() {
+        return EmployeeType.CONTRACTOR;
     }
 }

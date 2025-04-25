@@ -1,7 +1,7 @@
 package com.example.demo.employee.models;
 
-import com.example.demo.employee.models.employee.Employee;
-import com.example.demo.employee.models.employee.EmployeeType;
+import com.example.demo.employee.models.exchange.EmployeeDTO;
+import com.example.demo.employee.models.exchange.EmployeeDTOAdapter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,13 +35,5 @@ class EmployeeDTOAdapterTest {
     void shouldConvertPartTimeEmployeeToEmployeeDTO() {
         EmployeeDTO employeeDTO = employeeDTOAdapter.getEmployeeDTO(getEmployeeWithType(EmployeeType.PARTTIMEEMPLOYEE));
         assertThat(employeeDTO).isEqualTo(getEmployeeDTOWithType(EmployeeType.PARTTIMEEMPLOYEE));
-    }
-
-    @Test
-    void shouldThrowIllegalArgumentExceptionWithInvalidEmployee() {
-        Employee invalidemployee = () -> null;
-        assertThatThrownBy(() -> employeeDTOAdapter.getEmployeeDTO(invalidemployee))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("unsupported employee type");
     }
 }

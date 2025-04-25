@@ -1,9 +1,10 @@
 package com.example.demo.employee.models.converter;
 
-import com.example.demo.employee.models.EmployeeDTO;
-import com.example.demo.employee.models.employee.Employee;
+import com.example.demo.employee.models.EmployeeType;
+import com.example.demo.employee.models.exchange.EmployeeDTO;
+import com.example.demo.employee.models.Employee;
 
 public interface EmployeeDTOConverter {
     EmployeeDTO createEmployeeDTO(Employee employee);
-    Class<?> getSupportedEmployeeType();
+    EmployeeType getSupportedEmployeeType();
 }

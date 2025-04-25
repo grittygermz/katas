@@ -1,7 +1,7 @@
 package com.example.demo.employee.models;
 
-import com.example.demo.employee.models.employee.Employee;
-import com.example.demo.employee.models.employee.EmployeeType;
+import com.example.demo.employee.models.exchange.EmployeeDAOAdapter;
+import com.example.demo.employee.models.exchange.EmployeeDao;
 import com.example.demo.stocks.SamplePayload;
 import com.example.demo.stocks.StockServiceClient;
 import org.junit.jupiter.api.Test;

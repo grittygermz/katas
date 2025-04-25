@@ -1,14 +1,14 @@
 package com.example.demo.employee.update;
 
 import com.example.demo.config.TestConfig;
-import com.example.demo.employee.models.EmployeeDao;
+import com.example.demo.employee.models.exchange.EmployeeDao;
 import com.example.demo.employee.EmployeeRepository;
 import com.example.demo.employee.exceptions.EmployeeNotFoundException;
-import com.example.demo.employee.models.EmployeeDAOAdapter;
-import com.example.demo.employee.models.EmployeeDTO;
-import com.example.demo.employee.models.EmployeeDTOAdapter;
-import com.example.demo.employee.models.employee.Employee;
-import com.example.demo.employee.models.employee.EmployeeType;
+import com.example.demo.employee.models.exchange.EmployeeDAOAdapter;
+import com.example.demo.employee.models.exchange.EmployeeDTO;
+import com.example.demo.employee.models.exchange.EmployeeDTOAdapter;
+import com.example.demo.employee.models.Employee;
+import com.example.demo.employee.models.EmployeeType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

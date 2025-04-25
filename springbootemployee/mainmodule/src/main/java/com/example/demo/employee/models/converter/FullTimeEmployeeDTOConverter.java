@@ -1,9 +1,9 @@
 package com.example.demo.employee.models.converter;
 
-import com.example.demo.employee.models.EmployeeDTO;
-import com.example.demo.employee.models.employee.Employee;
-import com.example.demo.employee.models.employee.EmployeeType;
-import com.example.demo.employee.models.employee.FullTimeEmployee;
+import com.example.demo.employee.models.exchange.EmployeeDTO;
+import com.example.demo.employee.models.Employee;
+import com.example.demo.employee.models.EmployeeType;
+import com.example.demo.employee.models.FullTimeEmployee;
 import com.example.demo.employee.models.salary.FullTimeSalary;
 import org.springframework.stereotype.Component;
 
@@ -16,13 +16,13 @@ public class FullTimeEmployeeDTOConverter implements EmployeeDTOConverter {
         return new EmployeeDTO(fullTimeEmployee.getEmployeeId(),
                 EmployeeType.FULLTIMEEMPLOYEE.getValue(),
                 null,
-                ((FullTimeSalary) fullTimeEmployee.getSalary()).baseSalary(),
+                ((FullTimeSalary) fullTimeEmployee.getSalary()).getBaseSalary(),
                 fullTimeEmployee.getAnnualSalary(),
                 fullTimeEmployee.getStocks());
     }
 
     @Override
-    public Class<?> getSupportedEmployeeType() {
-        return FullTimeEmployee.class;
+    public EmployeeType getSupportedEmployeeType() {
+        return EmployeeType.FULLTIMEEMPLOYEE;
     }
 }

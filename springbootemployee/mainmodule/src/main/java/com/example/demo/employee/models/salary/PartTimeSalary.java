@@ -9,12 +9,12 @@ import java.time.Year;
 
 @Data
 public class PartTimeSalary implements Salary {
-    private final BigDecimal hourlyWage = new BigDecimal("50.00");
+    private final static BigDecimal DEFAULT_HOURLY_WAGE = new BigDecimal("50.00");
     private final int workingHoursPerDay;
 
     @Override
     public BigDecimal computeAnnualSalary() {
-        return hourlyWage
+        return DEFAULT_HOURLY_WAGE
                 .multiply(new BigDecimal(workingHoursPerDay))
                 .multiply(new BigDecimal(getNumberOfWeekdaysInCurrentYear()));
     }

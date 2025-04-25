@@ -1,8 +1,8 @@
 package com.example.demo.employee.update;
 
 import com.example.demo.employee.exceptions.EmployeeNotFoundException;
-import com.example.demo.employee.models.EmployeeDTO;
-import com.example.demo.employee.models.employee.EmployeeType;
+import com.example.demo.employee.models.exchange.EmployeeDTO;
+import com.example.demo.employee.models.EmployeeType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;

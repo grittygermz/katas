@@ -1,6 +1,6 @@
 package com.example.demo.employee.read;
 
-import com.example.demo.employee.models.EmployeeDTO;
+import com.example.demo.employee.models.exchange.EmployeeDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.*;

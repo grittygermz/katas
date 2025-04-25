@@ -1,7 +1,7 @@
-package com.example.demo.employee.models;
+package com.example.demo.employee.models.exchange;
 
+import com.example.demo.employee.models.Employee;
 import com.example.demo.employee.models.converter.*;
-import com.example.demo.employee.models.employee.Employee;
 import com.example.demo.stocks.StockServiceClient;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +20,6 @@ public class EmployeeDAOAdapter {
             daoConverterMap.put(converter.getSupportedEmployeeType(), converter);
         }
     }
-
 
     public Employee getEmployee(EmployeeDao employeeDao) {
         EmployeeDAOConverter employeeDAOConverter = daoConverterMap.get(employeeDao.getEmployeeType());

@@ -1,9 +1,9 @@
 package com.example.demo.employee.models.converter;
 
-import com.example.demo.employee.models.EmployeeDao;
-import com.example.demo.employee.models.employee.ContractorEmployee;
-import com.example.demo.employee.models.employee.Employee;
-import com.example.demo.employee.models.employee.EmployeeType;
+import com.example.demo.employee.models.exchange.EmployeeDao;
+import com.example.demo.employee.models.ContractorEmployee;
+import com.example.demo.employee.models.Employee;
+import com.example.demo.employee.models.EmployeeType;
 import org.springframework.stereotype.Component;
 
 @Component

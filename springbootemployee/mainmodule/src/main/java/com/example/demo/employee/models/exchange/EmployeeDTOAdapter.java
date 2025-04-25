@@ -1,7 +1,8 @@
-package com.example.demo.employee.models;
+package com.example.demo.employee.models.exchange;
 
+import com.example.demo.employee.models.Employee;
+import com.example.demo.employee.models.EmployeeType;
 import com.example.demo.employee.models.converter.EmployeeDTOConverter;
-import com.example.demo.employee.models.employee.Employee;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -11,7 +12,7 @@ import java.util.Map;
 @Component
 public class EmployeeDTOAdapter {
 
-    private Map<Class<?>, EmployeeDTOConverter> dtoConverterMap;
+    private final Map<EmployeeType, EmployeeDTOConverter> dtoConverterMap;
 
     public EmployeeDTOAdapter(List<EmployeeDTOConverter> employeeDTOConverters) {
         dtoConverterMap = new HashMap<>();
@@ -21,7 +22,7 @@ public class EmployeeDTOAdapter {
     }
 
     public EmployeeDTO getEmployeeDTO(Employee employee) {
-        EmployeeDTOConverter employeeDTOConverter = dtoConverterMap.get(employee.getClass());
+        EmployeeDTOConverter employeeDTOConverter = dtoConverterMap.get(employee.getEmployeeType());
         if (employeeDTOConverter == null) {
             throw new IllegalArgumentException("unsupported employee type");
         }

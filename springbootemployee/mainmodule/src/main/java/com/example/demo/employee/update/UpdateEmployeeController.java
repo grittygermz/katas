@@ -1,6 +1,6 @@
 package com.example.demo.employee.update;
 
-import com.example.demo.employee.models.EmployeeDTO;
+import com.example.demo.employee.models.exchange.EmployeeDTO;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.example.demo.employee.models.employee;
+package com.example.demo.employee.models;
 
 public enum EmployeeType {
     FULLTIMEEMPLOYEE("FullTime"),

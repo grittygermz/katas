@@ -1,6 +1,6 @@
 package com.example.demo.employee;
 
-import com.example.demo.employee.models.EmployeeDao;
+import com.example.demo.employee.models.exchange.EmployeeDao;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;

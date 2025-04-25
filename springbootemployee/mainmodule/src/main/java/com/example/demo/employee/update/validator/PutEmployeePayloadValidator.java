@@ -1,6 +1,6 @@
 package com.example.demo.employee.update.validator;
 
-import com.example.demo.employee.models.employee.EmployeeType;
+import com.example.demo.employee.models.EmployeeType;
 import com.example.demo.employee.update.PutEmployeePayload;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

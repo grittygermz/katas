@@ -1,4 +1,4 @@
-package com.example.demo.employee.models.employee;
+package com.example.demo.employee.models;
 
 import com.example.demo.employee.models.salary.ContractorSalary;
 import com.example.demo.employee.models.salary.Salary;
@@ -20,5 +20,10 @@ public class ContractorEmployee implements Employee{
     @Override
     public BigDecimal getAnnualSalary() {
         return salary.computeAnnualSalary();
+    }
+
+    @Override
+    public EmployeeType getEmployeeType() {
+        return EmployeeType.CONTRACTOR;
     }
 }
