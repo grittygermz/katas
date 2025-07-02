@@ -1,7 +1,5 @@
 package com.zukemon.refactor.zukemons;
 
-import com.zukemon.refactor.CriticalHit;
-
 public class Psyduck extends Zukemon {
 
     public static final int NUMBER = 54;

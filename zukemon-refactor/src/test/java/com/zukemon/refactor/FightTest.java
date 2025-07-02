@@ -1,9 +1,13 @@
 package com.zukemon.refactor;
 
+import com.zukemon.refactor.fight.Fight;
+import com.zukemon.refactor.fightmodes.FightModeType;
+import com.zukemon.refactor.log.ArenaDisplay;
+import com.zukemon.refactor.log.HistoryLogger;
 import com.zukemon.refactor.zukemons.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -16,19 +20,28 @@ public class FightTest {
     @Mock
     private ZukemonFactory factory;
 
+    @Mock
+    private ArenaDisplay arenaDisplay;
+
+    @Mock
+    private HistoryLogger historyLogger;
+
+    //works without injectmock here??
+    @InjectMocks
     private Fight fight;
 
-    @BeforeEach
-    public void setUp() {
-        fight = new Fight();
-        fight.zukemonFactory = factory;
-    }
+    // is this still needed if i use injectmock annotation?
+    //@BeforeEach
+    //public void setUp() {
+    //    fight = new Fight(factory, arenaDisplay, historyLogger);
+    //    //fight.zukemonFactory = factory;
+    //}
 
     @Test
     public void wartortleVsBlastoiseNormalMode() {
         Mockito.when(factory.createRandomZukemon()).thenReturn(new Wartortle()).thenReturn(new Blastoise());
 
-        Zukemon winner = fight.fight(FightMode.NORMAL);
+        Zukemon winner = fight.fight(FightModeType.NORMAL);
 
         assertThat(winner).isInstanceOf(Wartortle.class);
         assertThat(fight.getHighScore()).isEqualTo(300);
@@ -41,7 +54,7 @@ public class FightTest {
         wartortle.increaseLifePointsBy(100000);
         Mockito.when(factory.createRandomZukemon()).thenReturn(new Blastoise()).thenReturn(wartortle);
 
-        Zukemon winner = fight.fight(FightMode.NORMAL);
+        Zukemon winner = fight.fight(FightModeType.NORMAL);
 
         assertThat(winner).isInstanceOf(Wartortle.class);
     }
@@ -50,7 +63,7 @@ public class FightTest {
     public void wartortleVsBlastoiseDefendMode() {
         Mockito.when(factory.createRandomZukemon()).thenReturn(new Wartortle()).thenReturn(new Blastoise());
 
-        Zukemon winner = fight.fight(FightMode.DEFEND);
+        Zukemon winner = fight.fight(FightModeType.DEFEND);
 
         assertThat(winner).isInstanceOf(Wartortle.class);
     }
@@ -62,7 +75,7 @@ public class FightTest {
         krookodile.increaseLifePointsBy(10000);
         Mockito.when(factory.createRandomZukemon()).thenReturn(new Wartortle()).thenReturn(new Blastoise()).thenReturn(krookodile).thenReturn(new Mew()).thenReturn(new Pikachu());
 
-        Zukemon winner = fight.fight(FightMode.ROYAL_RUMBLE);
+        Zukemon winner = fight.fight(FightModeType.ROYAL_RUMBLE);
 
         assertThat(winner).isEqualTo(krookodile);
     }

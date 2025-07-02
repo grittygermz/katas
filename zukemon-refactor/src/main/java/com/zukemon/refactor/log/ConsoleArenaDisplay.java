@@ -1,14 +1,14 @@
-package com.zukemon.refactor;
+package com.zukemon.refactor.log;
 
 import com.zukemon.refactor.zukemons.Zukemon;
 
-public class ArenaDisplay {
+public class ConsoleArenaDisplay implements ArenaDisplay {
 
-    public static void showDamage(Zukemon zukemon, int damage) {
+    public void showDamage(Zukemon zukemon, int damage) {
         System.out.println(zukemon.getClass().getSimpleName() + " made " + damage + " damage");
     }
 
-    public static void showHighScore(Zukemon zukemon, int highScore) {
+    public void showHighScore(Zukemon zukemon, int highScore) {
         System.out.println("New highscore from " + zukemon.getClass().getSimpleName() + ": " + highScore);
     }
 }

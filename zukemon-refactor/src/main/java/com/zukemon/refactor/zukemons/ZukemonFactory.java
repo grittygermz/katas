@@ -1,6 +1,4 @@
-package com.zukemon.refactor;
-
-import com.zukemon.refactor.zukemons.*;
+package com.zukemon.refactor.zukemons;
 
 import java.util.List;
 import java.util.Random;
