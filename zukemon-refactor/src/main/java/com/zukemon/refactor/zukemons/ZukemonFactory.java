@@ -5,24 +5,17 @@ import java.util.Random;
 
 public class ZukemonFactory {
 
-    public Zukemon createZukemon(int type) {
-        switch (type) {
-            case 151:
-                return new Mew();
-            case 8:
-                return new Wartortle();
-            case 9:
-                return new Blastoise();
-            case 258:
-                return new Mudkip();
-            case 25:
-                return new Pikachu();
-            case 54:
-                return new Psyduck();
-            case 553:
-                return new Krookodile();
-        }
-        throw new IllegalArgumentException("No Zukemon for type " + type);
+    private Zukemon createZukemon(int type) {
+        return switch (type) {
+            case 151 -> new Mew();
+            case 8 -> new Wartortle();
+            case 9 -> new Blastoise();
+            case 258 -> new Mudkip();
+            case 25 -> new Pikachu();
+            case 54 -> new Psyduck();
+            case 553 -> new Krookodile();
+            default -> throw new IllegalArgumentException("No Zukemon for type " + type);
+        };
     }
 
     public Zukemon createRandomZukemon() {

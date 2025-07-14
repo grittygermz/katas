@@ -1,9 +1,7 @@
 package com.zukemon.refactor.fightmodes;
 
-import com.zukemon.refactor.log.ArenaDisplay;
-import com.zukemon.refactor.zukemons.ZukemonFactory;
-import com.zukemon.refactor.log.HistoryLogger;
 import com.zukemon.refactor.zukemons.Zukemon;
+import com.zukemon.refactor.zukemons.ZukemonFactory;
 
 import java.util.List;
 import java.util.Random;
@@ -12,8 +10,8 @@ import java.util.stream.IntStream;
 
 public class RoyalRumbleFightMode extends FightMode {
 
-    public RoyalRumbleFightMode(ZukemonFactory zukemonFactory, ArenaDisplay arenaDisplay, HistoryLogger historyLogger) {
-        super(zukemonFactory, arenaDisplay, historyLogger);
+    public RoyalRumbleFightMode(ZukemonFactory zukemonFactory) {
+        super(zukemonFactory);
     }
 
     public Zukemon fight() {
@@ -30,7 +28,10 @@ public class RoyalRumbleFightMode extends FightMode {
 
             performAttackSequence(chosenFighters.attacker(), chosenFighters.defender());
             if (chosenFighters.defender().isDead()) {
-                historyLogger.logRoyalRumbleLoseMessage(chosenFighters.defender());
+                Zukemon killedZukemon = chosenFighters.defender();
+                String deadMessage = "Zukemon '" + killedZukemon.getClass().getSimpleName() + "' is out of the royal rumble.\r\n";
+
+                super.updateObserversWithGameEnd(deadMessage);
                 fighters.remove(chosenFighters.defender());
             }
         }

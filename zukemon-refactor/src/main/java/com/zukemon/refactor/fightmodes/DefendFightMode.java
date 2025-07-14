@@ -1,14 +1,14 @@
 package com.zukemon.refactor.fightmodes;
 
-import com.zukemon.refactor.zukemons.ZukemonFactory;
-import com.zukemon.refactor.log.ArenaDisplay;
-import com.zukemon.refactor.log.HistoryLogger;
 import com.zukemon.refactor.zukemons.Zukemon;
+import com.zukemon.refactor.zukemons.ZukemonFactory;
 
 public class DefendFightMode extends FightMode {
 
-    public DefendFightMode(ZukemonFactory zukemonFactory, ArenaDisplay arenaDisplay, HistoryLogger historyLogger) {
-        super(zukemonFactory, arenaDisplay, historyLogger);
+    int numberOfSurvivedRounds = 0;
+
+    public DefendFightMode(ZukemonFactory zukemonFactory) {
+        super(zukemonFactory);
     }
 
     public Zukemon fight() {
@@ -21,11 +21,11 @@ public class DefendFightMode extends FightMode {
         int initialLifePoints = defender.getLifePoints();
         // The defender gets super much life points
         defender.increaseLifePointsBy(5000);
-        int numberOfSurvivedRounds = 0;
         while (true) {
             performAttackSequence(attacker, defender);
             if (defender.isDead()) {
-                historyLogger.logRoundsSurvivedMessage(defender, numberOfSurvivedRounds);
+                String deadMessage = "Zukemon '" + defender.getClass().getSimpleName() + "' has survived " + numberOfSurvivedRounds + " rounds.\r\n";
+                super.updateObserversWithGameEnd(deadMessage);
                 return attacker;
             }
 

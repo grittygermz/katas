@@ -1,42 +1,57 @@
 package com.zukemon.refactor.fightmodes;
 
-import com.zukemon.refactor.log.ArenaDisplay;
-import com.zukemon.refactor.zukemons.ZukemonFactory;
-import com.zukemon.refactor.log.HistoryLogger;
+import com.zukemon.refactor.log.FightObserver;
 import com.zukemon.refactor.zukemons.Zukemon;
+import com.zukemon.refactor.zukemons.ZukemonFactory;
+import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@RequiredArgsConstructor
 public abstract class FightMode {
 
-    protected ZukemonFactory zukemonFactory;
+    protected final ZukemonFactory zukemonFactory;
     private int highScore = 0;
-    protected ArenaDisplay arenaDisplay;
-    protected HistoryLogger historyLogger;
+    //protected ArenaDisplay arenaDisplay;
+    //protected HistoryLogger historyLogger;
 
-    public FightMode(ZukemonFactory zukemonFactory, ArenaDisplay arenaDisplay, HistoryLogger historyLogger) {
-        this.zukemonFactory = zukemonFactory;
-        this.arenaDisplay = arenaDisplay;
-        this.historyLogger = historyLogger;
-    }
+    List<FightObserver> fightObserverList = new ArrayList<>();
 
     protected void performAttackSequence(Zukemon attacker, Zukemon defender) {
         int attackerDamage = attacker.hit();
         defender.reduceLifePointsBy(attackerDamage);
 
-        arenaDisplay.showDamage(attacker, attackerDamage);
+        updateObserversWithDamage(attacker, defender, attackerDamage);
         updateHighScore(attackerDamage, attacker);
 
-        historyLogger.logDamage(attacker, attackerDamage, defender);
     }
 
     private void updateHighScore(int attackerDamage, Zukemon attacker) {
         if (attackerDamage > highScore) {
             highScore = attackerDamage;
-            arenaDisplay.showHighScore(attacker, highScore);
+            updateObserversWithHighScore(attacker, highScore);
         }
     }
 
     public int getHighScore() {
         return highScore;
+    }
+
+    public void addObserver(FightObserver observer) {
+        this.fightObserverList.add(observer);
+    }
+
+    private void updateObserversWithDamage(Zukemon attacker, Zukemon defender, int damage) {
+        this.fightObserverList.forEach(o -> o.updateDamage(attacker, defender, damage));
+    }
+
+    private void updateObserversWithHighScore(Zukemon attacker, int highScore) {
+        this.fightObserverList.forEach(o -> o.updateHighScore(attacker, highScore));
+    }
+
+    protected void updateObserversWithGameEnd(String gameEndMessage) {
+        this.fightObserverList.forEach(o -> o.updateGameEnd(gameEndMessage));
     }
 
     public abstract Zukemon fight();

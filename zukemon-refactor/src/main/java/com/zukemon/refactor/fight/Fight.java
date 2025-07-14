@@ -1,26 +1,30 @@
 package com.zukemon.refactor.fight;
 
-import com.zukemon.refactor.fightmodes.*;
-import com.zukemon.refactor.log.ArenaDisplay;
+import com.zukemon.refactor.fightmodes.FightMode;
+import com.zukemon.refactor.fightmodes.FightModeType;
 import com.zukemon.refactor.log.ConsoleArenaDisplay;
 import com.zukemon.refactor.log.FileHistoryLogger;
-import com.zukemon.refactor.log.HistoryLogger;
 import com.zukemon.refactor.zukemons.Zukemon;
 import com.zukemon.refactor.zukemons.ZukemonFactory;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public class Fight {
 
-    private FightMode abstractFightMode;
+    private FightMode fightMode;
 
+    private final String historyFileName;
     private final ZukemonFactory zukemonFactory;
-    private final ArenaDisplay arenaDisplay;
-    private final HistoryLogger historyLogger;
+    private final FightModeFactory fightModeFactory;
 
-    public Fight() {
-        this(new ZukemonFactory(), new ConsoleArenaDisplay(), new FileHistoryLogger("history.txt"));
+    public Fight(String historyFileName, ZukemonFactory zukemonFactory, FightModeFactory fightModeFactory) {
+        this.historyFileName = historyFileName;
+        this.zukemonFactory = zukemonFactory;
+        this.fightModeFactory = fightModeFactory;
     }
+
+    public Fight(ZukemonFactory zukemonFactory) {
+        this("history.txt", zukemonFactory, new FightModeFactory());
+    }
+
 
     /**
      * Blastoise #9 Water Damage 258
@@ -38,19 +42,23 @@ public class Fight {
      */
     public Zukemon fight(FightModeType fightModeType) {
 
-        //the abstract class that the concrete class that it extends from now looks super complex with so many fields? is this bad?
-        abstractFightMode = switch (fightModeType) {
-            case NORMAL -> new NormalFightMode(zukemonFactory, arenaDisplay, historyLogger);
-            case DEFEND -> new DefendFightMode(zukemonFactory, arenaDisplay, historyLogger);
-            case ROYAL_RUMBLE -> new RoyalRumbleFightMode(zukemonFactory, arenaDisplay, historyLogger);
-        };
+        FightMode fightMode = fightModeFactory.createFight(fightModeType, zukemonFactory);
+        this.fightMode = fightMode;
+        this.addObservers(fightMode);
 
-        return abstractFightMode.fight();
+        return fightMode.fight();
     }
 
     public int getHighScore() {
-        return abstractFightMode.getHighScore();
+        return fightMode.getHighScore();
     }
+
+    void addObservers(FightMode fightMode) {
+        fightMode.addObserver(new ConsoleArenaDisplay());
+        fightMode.addObserver(new FileHistoryLogger(historyFileName));
+    }
+
+
 
     /*
     S - SRP - only 1 reason to change

@@ -1,14 +1,12 @@
 package com.zukemon.refactor.fightmodes;
 
-import com.zukemon.refactor.zukemons.ZukemonFactory;
-import com.zukemon.refactor.log.ArenaDisplay;
-import com.zukemon.refactor.log.HistoryLogger;
 import com.zukemon.refactor.zukemons.Zukemon;
+import com.zukemon.refactor.zukemons.ZukemonFactory;
 
 public class NormalFightMode extends FightMode {
 
-    public NormalFightMode(ZukemonFactory zukemonFactory, ArenaDisplay arenaDisplay, HistoryLogger historyLogger) {
-        super(zukemonFactory, arenaDisplay, historyLogger);
+    public NormalFightMode(ZukemonFactory zukemonFactory) {
+        super(zukemonFactory);
     }
 
     public Zukemon fight() {
@@ -18,18 +16,24 @@ public class NormalFightMode extends FightMode {
     }
 
     Zukemon fight(Zukemon attacker, Zukemon defender) {
-        while (true) {
-            performAttackSequence(attacker, defender);
-            if (defender.isDead()) {
-                historyLogger.logDeadMessage(defender);
-                return attacker;
-            }
 
-            performAttackSequence(defender, attacker);
-            if (attacker.isDead()) {
-                historyLogger.logDeadMessage(attacker);
-                return defender;
-            }
+        Zukemon deadZukemon;
+        while (true) {
+            deadZukemon = attack(defender, attacker);
+            if (deadZukemon != null) return deadZukemon;
+
+            deadZukemon = attack(attacker, defender);
+            if (deadZukemon != null) return deadZukemon;
         }
+    }
+
+    private Zukemon attack(Zukemon attacker, Zukemon defender) {
+        performAttackSequence(defender, attacker);
+        if (attacker.isDead()) {
+            String deadMessage = "Zukemon '" + attacker.getClass().getSimpleName() + "' is dead looser";
+            super.updateObserversWithGameEnd(deadMessage);
+            return defender;
+        }
+        return null;
     }
 }
