@@ -5,7 +5,7 @@ import com.zukemon.refactor.log.ArenaDisplay;
 import com.zukemon.refactor.log.HistoryLogger;
 import com.zukemon.refactor.zukemons.Zukemon;
 
-public class NormalFightMode extends AbstractFightMode {
+public class NormalFightMode extends FightMode {
 
     public NormalFightMode(ZukemonFactory zukemonFactory, ArenaDisplay arenaDisplay, HistoryLogger historyLogger) {
         super(zukemonFactory, arenaDisplay, historyLogger);
@@ -14,6 +14,10 @@ public class NormalFightMode extends AbstractFightMode {
     public Zukemon fight() {
         Zukemon attacker = zukemonFactory.createRandomZukemon();
         Zukemon defender = zukemonFactory.createRandomZukemon();
+        return fight(attacker, defender);
+    }
+
+    Zukemon fight(Zukemon attacker, Zukemon defender) {
         while (true) {
             performAttackSequence(attacker, defender);
             if (defender.isDead()) {

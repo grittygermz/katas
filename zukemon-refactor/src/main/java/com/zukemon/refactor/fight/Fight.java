@@ -2,30 +2,25 @@ package com.zukemon.refactor.fight;
 
 import com.zukemon.refactor.fightmodes.*;
 import com.zukemon.refactor.log.ArenaDisplay;
+import com.zukemon.refactor.log.ConsoleArenaDisplay;
+import com.zukemon.refactor.log.FileHistoryLogger;
 import com.zukemon.refactor.log.HistoryLogger;
 import com.zukemon.refactor.zukemons.Zukemon;
 import com.zukemon.refactor.zukemons.ZukemonFactory;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class Fight {
 
+    private FightMode abstractFightMode;
+
     private final ZukemonFactory zukemonFactory;
-    private AbstractFightMode abstractFightMode;
-
-
-    // since these 2 are no longer static they need to be passed in from the client.. makes testing easy but makes the class hard to use?
-    // should i wire this as a bean and let spring inject it? but does it make testing more difficult? but it is also possible to mock a bean?? to be verified
-    // as discussed.. having them passed in makes them easily swappable in the future?
     private final ArenaDisplay arenaDisplay;
     private final HistoryLogger historyLogger;
 
-    public Fight(ZukemonFactory zukemonFactory, ArenaDisplay arenaDisplay, HistoryLogger historyLogger) {
-        this.zukemonFactory = zukemonFactory;
-        this.arenaDisplay = arenaDisplay;
-        this.historyLogger = historyLogger;
+    public Fight() {
+        this(new ZukemonFactory(), new ConsoleArenaDisplay(), new FileHistoryLogger("history.txt"));
     }
-
-    //private final ArenaDisplay arenaDisplay = new ArenaDisplay();
-    //private int highScore = 0;
 
     /**
      * Blastoise #9 Water Damage 258

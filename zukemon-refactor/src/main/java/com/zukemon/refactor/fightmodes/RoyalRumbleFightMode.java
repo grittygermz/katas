@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class RoyalRumbleFightMode extends AbstractFightMode {
+public class RoyalRumbleFightMode extends FightMode {
 
     public RoyalRumbleFightMode(ZukemonFactory zukemonFactory, ArenaDisplay arenaDisplay, HistoryLogger historyLogger) {
         super(zukemonFactory, arenaDisplay, historyLogger);
@@ -21,6 +21,10 @@ public class RoyalRumbleFightMode extends AbstractFightMode {
                 .mapToObj(i -> zukemonFactory.createRandomZukemon())
                 .collect(Collectors.toList());
 
+        return fight(fighters);
+    }
+
+    Zukemon fight(List<Zukemon> fighters) {
         while (fighters.size() > 1) {
             ChosenFighters chosenFighters = getRandomFighterAndDefender(fighters);
 
