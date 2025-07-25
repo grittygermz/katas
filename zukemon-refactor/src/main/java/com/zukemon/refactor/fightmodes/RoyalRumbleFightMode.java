@@ -4,14 +4,20 @@ import com.zukemon.refactor.zukemons.Zukemon;
 import com.zukemon.refactor.zukemons.ZukemonFactory;
 
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class RoyalRumbleFightMode extends FightMode {
 
+    RoyalRumbleRandomSelector royalRumbleRandomSelector;
+
     public RoyalRumbleFightMode(ZukemonFactory zukemonFactory) {
+        this(zukemonFactory, new RoyalRumbleRandomSelector());
+    }
+
+    public RoyalRumbleFightMode(ZukemonFactory zukemonFactory, RoyalRumbleRandomSelector royalRumbleRandomSelector) {
         super(zukemonFactory);
+        this.royalRumbleRandomSelector = royalRumbleRandomSelector;
     }
 
     public Zukemon fight() {
@@ -24,7 +30,7 @@ public class RoyalRumbleFightMode extends FightMode {
 
     Zukemon fight(List<Zukemon> fighters) {
         while (fighters.size() > 1) {
-            ChosenFighters chosenFighters = getRandomFighterAndDefender(fighters);
+            ChosenFighters chosenFighters = royalRumbleRandomSelector.getRandomFighterAndDefender(fighters);
 
             performAttackSequence(chosenFighters.attacker(), chosenFighters.defender());
             if (chosenFighters.defender().isDead()) {
@@ -36,17 +42,5 @@ public class RoyalRumbleFightMode extends FightMode {
             }
         }
         return fighters.getFirst();
-    }
-
-    private static ChosenFighters getRandomFighterAndDefender(List<Zukemon> fighters) {
-        Zukemon attacker = fighters.get(new Random().nextInt(fighters.size()));
-        Zukemon defender = fighters.get(new Random().nextInt(fighters.size()));
-        while (attacker == defender) {
-            defender = fighters.get(new Random().nextInt(fighters.size()));
-        }
-        return new ChosenFighters(attacker, defender);
-    }
-
-    private record ChosenFighters(Zukemon attacker, Zukemon defender) {
     }
 }

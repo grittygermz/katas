@@ -13,8 +13,6 @@ public abstract class FightMode {
 
     protected final ZukemonFactory zukemonFactory;
     private int highScore = 0;
-    //protected ArenaDisplay arenaDisplay;
-    //protected HistoryLogger historyLogger;
 
     List<FightObserver> fightObserverList = new ArrayList<>();
 

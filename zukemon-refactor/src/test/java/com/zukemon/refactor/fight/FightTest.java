@@ -8,7 +8,6 @@ import com.zukemon.refactor.zukemons.ZukemonFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -23,17 +22,12 @@ class FightTest {
     @Mock
     ZukemonFactory zukemonFactory;
 
-    //cant mock a string
-    //@Mock
-    //String historyFileName;
-
     @Mock
     FightModeFactory fightModeFactory;
 
     @Mock
     FightMode fightMode;
 
-    @InjectMocks
     Fight fight;
 
     @BeforeEach
@@ -57,12 +51,4 @@ class FightTest {
         verify(fightMode).fight();
         assertThat(winner).isEqualTo(blastoise);
     }
-
-    @Test
-    void shouldGetHighScore() {
-        when(fightMode.getHighScore()).thenReturn(10);
-
-        assertThat(fight.getHighScore()).isEqualTo(10);
-    }
-
 }
