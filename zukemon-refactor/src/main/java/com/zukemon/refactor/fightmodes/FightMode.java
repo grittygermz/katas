@@ -53,4 +53,6 @@ public abstract class FightMode {
     }
 
     public abstract Zukemon fight();
+
+    public abstract Zukemon fight(List<Zukemon> zukemons);
 }

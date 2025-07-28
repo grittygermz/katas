@@ -3,6 +3,8 @@ package com.zukemon.refactor.fightmodes;
 import com.zukemon.refactor.zukemons.Zukemon;
 import com.zukemon.refactor.zukemons.ZukemonFactory;
 
+import java.util.List;
+
 public class NormalFightMode extends FightMode {
 
     public NormalFightMode(ZukemonFactory zukemonFactory) {
@@ -15,7 +17,12 @@ public class NormalFightMode extends FightMode {
         return fight(attacker, defender);
     }
 
-    Zukemon fight(Zukemon attacker, Zukemon defender) {
+    @Override
+    public Zukemon fight(List<Zukemon> zukemons) {
+        return this.fight(zukemons.get(0), zukemons.get(1));
+    }
+
+    public Zukemon fight(Zukemon attacker, Zukemon defender) {
 
         Zukemon deadZukemon;
         while (true) {

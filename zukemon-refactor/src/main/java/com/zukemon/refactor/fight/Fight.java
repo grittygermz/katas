@@ -54,8 +54,8 @@ public class Fight {
     }
 
     void addObservers(FightMode fightMode) {
-        fightMode.addObserver(new ConsoleArenaDisplay());
-        fightMode.addObserver(new FileHistoryLogger(historyFileName));
+        new ConsoleArenaDisplay(fightMode);
+        new FileHistoryLogger(historyFileName, fightMode);
     }
 
 

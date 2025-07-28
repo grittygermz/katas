@@ -28,7 +28,7 @@ public class RoyalRumbleFightMode extends FightMode {
         return fight(fighters);
     }
 
-    Zukemon fight(List<Zukemon> fighters) {
+    public Zukemon fight(List<Zukemon> fighters) {
         while (fighters.size() > 1) {
             ChosenFighters chosenFighters = royalRumbleRandomSelector.getRandomFighterAndDefender(fighters);
 

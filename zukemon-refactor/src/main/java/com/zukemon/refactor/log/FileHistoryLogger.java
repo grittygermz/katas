@@ -1,5 +1,6 @@
 package com.zukemon.refactor.log;
 
+import com.zukemon.refactor.fightmodes.FightMode;
 import com.zukemon.refactor.zukemons.Zukemon;
 
 import java.io.File;
@@ -11,13 +12,14 @@ public class FileHistoryLogger implements FightObserver {
 
     private final File historyFile;
 
-    public FileHistoryLogger(String historyFileName) {
+    public FileHistoryLogger(String historyFileName, FightMode fightMode) {
         try {
             historyFile = new File(historyFileName);
             historyFile.createNewFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        fightMode.addObserver(this);
     }
 
     @Override

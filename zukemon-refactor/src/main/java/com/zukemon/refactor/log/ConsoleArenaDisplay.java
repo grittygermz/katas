@@ -1,8 +1,13 @@
 package com.zukemon.refactor.log;
 
+import com.zukemon.refactor.fightmodes.FightMode;
 import com.zukemon.refactor.zukemons.Zukemon;
 
 public class ConsoleArenaDisplay implements FightObserver {
+
+    public ConsoleArenaDisplay(FightMode fightMode) {
+        fightMode.addObserver(this);
+    }
 
     @Override
     public void updateDamage(Zukemon attacker, Zukemon defender, int damage) {

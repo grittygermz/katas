@@ -3,6 +3,8 @@ package com.zukemon.refactor.fightmodes;
 import com.zukemon.refactor.zukemons.Zukemon;
 import com.zukemon.refactor.zukemons.ZukemonFactory;
 
+import java.util.List;
+
 public class DefendFightMode extends FightMode {
 
     int numberOfSurvivedRounds = 0;
@@ -17,7 +19,12 @@ public class DefendFightMode extends FightMode {
         return fight(defender, attacker);
     }
 
-    Zukemon fight(Zukemon defender, Zukemon attacker) {
+    @Override
+    public Zukemon fight(List<Zukemon> zukemons) {
+        return this.fight(zukemons.get(0), zukemons.get(1));
+    }
+
+    public Zukemon fight(Zukemon defender, Zukemon attacker) {
         int initialLifePoints = defender.getLifePoints();
         // The defender gets super much life points
         defender.increaseLifePointsBy(5000);
