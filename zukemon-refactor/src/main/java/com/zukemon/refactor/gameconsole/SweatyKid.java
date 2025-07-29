@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class SweatyKid {
 
     public static void main(String[] args) {
-        new SweatyKid().playInteractive();
+        new SweatyKid().playNonInteractive();
     }
 
     public void playNonInteractive() {
@@ -23,6 +23,11 @@ public class SweatyKid {
         System.out.println("===== <select fightmode> button prompt =====");
         simpleGameConsole.runButtonPrompt("select fightmode");
         simpleGameConsole.runButtonCommand("select fightmode", 0);
+        System.out.println("==========");
+
+        System.out.println("===== <equip zukemon> button prompt =====");
+        simpleGameConsole.runButtonPrompt("equip zukemon");
+        simpleGameConsole.runButtonCommand("equip zukemon", "helmet");
         System.out.println("==========");
 
         System.out.println("===== <fight!> button prompt =====");

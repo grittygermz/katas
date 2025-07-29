@@ -1,5 +1,6 @@
 package com.zukemon.refactor.gameconsole;
 
+import com.zukemon.refactor.equipment.Sword;
 import com.zukemon.refactor.fight.FightModeFactory;
 import com.zukemon.refactor.fightmodes.DefendFightMode;
 import com.zukemon.refactor.fightmodes.FightModeType;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +41,15 @@ class SimpleGameConsoleTest {
 
     @Test
     void shouldHaveCommandsLoaded() {
-        assertThat(simpleGameConsole.displayNameAndCommand).hasSize(3);
+        assertThat(simpleGameConsole.displayNameAndCommand).hasSize(4);
+    }
+
+    @Test
+    void shouldFailIfRunInvalidCommand() {
+        assertThatThrownBy(() -> simpleGameConsole.runButtonCommand("abcd", null))
+                .isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> simpleGameConsole.runButtonPrompt("abcd"))
+                .isInstanceOf(NullPointerException.class);
     }
 
     @Test
@@ -68,6 +78,40 @@ class SimpleGameConsoleTest {
         assertThatThrownBy(() -> simpleGameConsole.runButtonCommand("select fightmode", 99))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("99 is not a supported fightmode option");
+    }
+
+    @Test
+    void shouldEquipZukemon() throws NoSuchFieldException, IllegalAccessException {
+        List<Zukemon> selectedZukemons = simpleGameConsole.gameConsoleMemory.getSelectedZukemons();
+        selectedZukemons.add(new Pikachu());
+
+        simpleGameConsole.runButtonCommand("equip zukemon", "sword");
+        simpleGameConsole.runButtonCommand("equip zukemon", "sword");
+
+        Zukemon equippedZukemon = selectedZukemons.getLast();
+        assertThat(equippedZukemon.equipped()).containsIgnoringCase("sword, sword");
+        Sword sword = new Sword(null);
+        Field field = sword.getClass().getDeclaredField("DAMAGE");
+        field.setAccessible(true);
+        int damage = (int)field.get(sword);
+        assertThat(equippedZukemon.hit()).isEqualTo(new Pikachu().hit() + damage*2);
+    }
+
+    @Test
+    void shouldFailIfNoZukemonToEquip() {
+        assertThatThrownBy(() -> simpleGameConsole.runButtonCommand("equip zukemon", "sword"))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("no zukemon to equip");
+    }
+
+    @Test
+    void shouldFailIfEquipmentIsInvalid() {
+        List<Zukemon> selectedZukemons = simpleGameConsole.gameConsoleMemory.getSelectedZukemons();
+        selectedZukemons.add(new Pikachu());
+
+        assertThatThrownBy(() -> simpleGameConsole.runButtonCommand("equip zukemon", "axe"))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("equipment: axe doesnt exists");
     }
 
     @Test

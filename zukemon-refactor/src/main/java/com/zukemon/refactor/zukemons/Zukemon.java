@@ -24,4 +24,8 @@ public abstract class Zukemon {
     public boolean isDead() {
         return lifePoints == 0;
     }
+
+    public String equipped() {
+        return "";
+    }
 }
